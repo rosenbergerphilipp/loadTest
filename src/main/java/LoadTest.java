@@ -9,34 +9,23 @@ public class LoadTest {
         final int timeout = 1000;
         int count =0;
         com.sun.management.OperatingSystemMXBean operatingSystemMXBean = (OperatingSystemMXBean)ManagementFactory.getOperatingSystemMXBean();
-        Thread t = new Thread(new UselessThread());
-        ThreadGroup tg = t.getThreadGroup();
         long startmillis = 0;
         long endmillis=0;
-        while(true){
-            if(tg.activeCount()!=1){
-                endmillis=System.nanoTime();
-                System.out.println("Time elapsed: "+(((endmillis-startmillis)/10000)-100000)+"\t");
-                startmillis=System.nanoTime();
-                t.run();
-            }
-        }
-    }
-}
-class UselessThread implements Runnable{
-
-    @Override
-    public void run() {
         Random r = new Random();
-
-        long x = r.nextLong()*r.nextLong();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        for (int j= 0;j<10000;j++) {
+            startmillis = System.nanoTime();
+            for (int i = 0; i < 10000000; i++) {
+                long x = r.nextLong();
+                long y = r.nextLong();
+                long z = x * y;
+                x = z / (x - y);
+                long a= x*z/(x+y)-(z+y*y)+(long)Math.sqrt(x)*(long)Math.pow(z,x);
+                double d= r.nextDouble();
+                double b=d*z;
+                d=b;
+            }
+            endmillis = System.nanoTime();
+            System.out.println((endmillis - startmillis) / 1000000);
         }
-        long y=x/20;
-        System.out.println(y);
-
-    }
+        }
 }
